@@ -1,6 +1,6 @@
 FROM elixir:1.4.5
 ENV LC_ALL=C.UTF-8
-ENV MIX_ENV=dev
+ENV MIX_ENV=test
 ENV PGDATA=/etc/postgresql/9.4/main/
 ENV POSTGRES_HOST=127.0.0.1
 WORKDIR /tmp/dockerfile
