@@ -11,6 +11,7 @@ RUN wget https://deb.nodesource.com/gpgkey/nodesource.gpg.key -O /tmp/dockerfile
     apt-key add nodesource.gpg.key && \
     apt-get update && \
     apt-get install -y nodejs build-essential libtool autoconf git postgresql postgresql-contrib && \
+    curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     mkdir /var/run/postgresql/9.4-main.pg_stat_tmp && \
     chown postgres:postgres /var/run/postgresql/9.4-main.pg_stat_tmp && \
     mix local.hex --force && mix local.rebar --force && \
