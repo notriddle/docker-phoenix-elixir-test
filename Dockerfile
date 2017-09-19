@@ -13,7 +13,7 @@ RUN wget https://deb.nodesource.com/gpgkey/nodesource.gpg.key -O /tmp/dockerfile
     apt-get install -y nodejs build-essential libtool autoconf git postgresql postgresql-contrib && \
     mkdir /var/run/postgresql/9.4-main.pg_stat_tmp && \
     chown postgres:postgres /var/run/postgresql/9.4-main.pg_stat_tmp && \
-    mix local.hex --force && mix local.rebar --force &&
+    mix local.hex --force && mix local.rebar --force && \
     sed -i 's:ssl = true:ssl = false:' /etc/postgresql/*/main/postgresql.conf
 WORKDIR /srv/
 ENTRYPOINT [ "/usr/local/bin/smell-baron", "runuser", "-u", "postgres", "/usr/lib/postgresql/9.4/bin/postgres", "---", "-f" ]
