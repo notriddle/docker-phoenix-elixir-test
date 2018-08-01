@@ -1,21 +1,26 @@
-FROM elixir:1.4.5
-ENV LC_ALL=C.UTF-8
-ENV MIX_ENV=test
-ENV PGDATA=/etc/postgresql/9.4/main/
-ENV POSTGRES_HOST=127.0.0.1
-WORKDIR /tmp/dockerfile
-RUN wget https://deb.nodesource.com/gpgkey/nodesource.gpg.key -O /tmp/dockerfile/nodesource.gpg.key && \
-    wget https://github.com/ohjames/smell-baron/releases/download/v0.4.2/smell-baron -O /usr/local/bin/smell-baron && \
-    chmod +x /usr/local/bin/smell-baron && \
-    echo "deb http://deb.nodesource.com/node_6.x jessie main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-key add nodesource.gpg.key && \
-    apt-get update && \
-    apt-get install -y nodejs build-essential libtool autoconf git postgresql postgresql-contrib && \
-    curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-    mkdir /var/run/postgresql/9.4-main.pg_stat_tmp && \
-    chown postgres:postgres /var/run/postgresql/9.4-main.pg_stat_tmp && \
-    mix local.hex --force && mix local.rebar --force && \
-    sed -i 's:ssl = true:ssl = false:' /etc/postgresql/*/main/postgresql.conf
-WORKDIR /srv/
-ENTRYPOINT [ "/usr/local/bin/smell-baron", "runuser", "-u", "postgres", "/usr/lib/postgresql/9.4/bin/postgres", "---", "-f" ]
-CMD [ "mix", "test" ]
+FROM janitortechnology/ubuntu-dev
+# 16.04 "Xenial"
+MAINTAINER Michael Howell "michael@notriddle.com"
+
+ADD supervisord-append.conf /tmp
+
+# Download Elixir/OTP and PostgreSQL
+RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb > /tmp/erlang-solutions.deb && \
+    sudo dpkg -i /tmp/erlang-solutions.deb && \
+    sudo apt-get update && \
+    sudo apt-get -y install --no-install-recommends esl-erlang elixir vim zlib1g-dev libssl-dev openssl libcurl4-openssl-dev libreadline6-dev libpcre3 libpcre3-dev imagemagick postgresql postgresql-contrib-9.5 libpq-dev postgresql-server-dev-9.5 advancecomp gifsicle jhead jpegoptim libjpeg-turbo-progs optipng pngcrush pngquant gnupg2 libsqlite3-dev && \
+    sudo rm -rf /var/lib/apt/lists/* && \
+    (cat /tmp/supervisord-append.conf | sudo tee -a /etc/supervisord.conf) && \
+    sudo rm -f /tmp/supervisord-append.conf
+
+# Set up database
+RUN sudo mkdir /var/run/postgresql/9.5-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/9.5-main.pg_stat_tmp && \
+    (sudo runuser -u postgres -- /usr/lib/postgresql/9.5/bin/postgres -D /etc/postgresql/9.5/main/ 2>&1 > /dev/null &) && \
+    sleep 1 && \
+    # Bors will be running with user "postgres"
+    sudo -u postgres psql -c "ALTER USER \"postgres\" WITH PASSWORD 'Postgres1234';" && \
+    # Bors requires a UTF8 database, which means we have to change the PG template database to be UTF8
+    sudo -u postgres psql -c "UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1'" && \
+    sudo -u postgres psql -c "DROP DATABASE template1" && \
+    sudo -u postgres psql -c "CREATE DATABASE template1 WITH ENCODING = 'UTF8' TEMPLATE template0" && \
+    sudo -u postgres psql -c "UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1'"
