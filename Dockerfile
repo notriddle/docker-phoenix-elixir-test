@@ -11,7 +11,8 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     sudo apt-get -y install --no-install-recommends esl-erlang elixir vim zlib1g-dev libssl-dev openssl libcurl4-openssl-dev libreadline6-dev libpcre3 libpcre3-dev imagemagick postgresql postgresql-contrib-9.5 libpq-dev postgresql-server-dev-9.5 advancecomp gifsicle jhead jpegoptim libjpeg-turbo-progs optipng pngcrush pngquant gnupg2 libsqlite3-dev && \
     sudo rm -rf /var/lib/apt/lists/* && \
     (cat /tmp/supervisord-append.conf | sudo tee -a /etc/supervisord.conf) && \
-    sudo rm -f /tmp/supervisord-append.conf
+    sudo rm -f /tmp/supervisord-append.conf && \
+    mix local.hex --force && mix local.rebar --force
 
 # Set up database
 RUN sudo mkdir /var/run/postgresql/9.5-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/9.5-main.pg_stat_tmp && \
