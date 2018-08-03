@@ -18,19 +18,19 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     echo "$ELIXIR_DOWNLOAD_SHA256 elixir-src.tar.gz" | sha256sum -c - && \
     mkdir elixir-src && \
     tar -xzC elixir-src --strip-components=1 -f elixir-src.tar.gz && \
-    pushd elixir-src && \
+    cd elixir-src && \
     make clean test && \
     sudo make install && \
-    popd && \
+    cd .. && \
     rm -rf elixir-src elixir-src.tar.gz && \
     mix local.hex --force && mix local.rebar --force && \
 
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
     git clone https://github.com/jeremyjh/dialyxir && \
-    pushd dialyxir && \
+    cd dialyxir && \
     git checkout 78ecd45 && \
     mix do deps.get, dialyzer --plt && \
-    popd && \
+    cd .. && \
     rm -rf dialyxir && \
 
 # Set up database
