@@ -31,7 +31,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     git checkout 78ecd45 && \
     mix do deps.get, dialyzer --plt && \
     popd && \
-    rm -rf dialyxir
+    rm -rf dialyxir && \
 
 # Set up database
     sudo mkdir /var/run/postgresql/9.5-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/9.5-main.pg_stat_tmp && \
