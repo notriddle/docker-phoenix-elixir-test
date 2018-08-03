@@ -13,7 +13,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     sudo rm -rf /var/lib/apt/lists/* && \
     (cat /tmp/supervisord-append.conf | sudo tee -a /etc/supervisord.conf) && \
     sudo rm -f /tmp/supervisord-append.conf && \
-    curl -L https://github.com/elixir-lang/elixir/archive/v${ELIXIR_VERSION}.tar.gz > elixir-${ELIXIR_VERSION}.tar.gz | tar -xf - && \
+    curl -L https://github.com/elixir-lang/elixir/archive/v${ELIXIR_VERSION}.tar.gz | tar -xf - && \
     pushd elixir-${ELIXIR_VERSION} && \
     make clean test && \
     sudo make install && \
