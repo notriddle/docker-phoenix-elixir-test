@@ -1,7 +1,8 @@
 FROM janitortechnology/ubuntu-dev
 # 16.04 "Xenial"
 MAINTAINER Michael Howell "michael@notriddle.com"
-ENV ELIXIR_VERSION 1.1.6
+ENV ELIXIR_VERSION v1.7.1
+ENV ELIXIR_DOWNLOAD_SHA256 527af54775401cc5074ea698b9b6a6d67c5103056d2949638c101bc6f233e954
 
 ADD supervisord-append.conf /tmp
 
@@ -13,12 +14,15 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     sudo rm -rf /var/lib/apt/lists/* && \
     (cat /tmp/supervisord-append.conf | sudo tee -a /etc/supervisord.conf) && \
     sudo rm -f /tmp/supervisord-append.conf && \
-    curl -L https://github.com/elixir-lang/elixir/archive/v${ELIXIR_VERSION}.tar.gz | tar -xf - && \
-    pushd elixir-${ELIXIR_VERSION} && \
+    curl -L https://github.com/elixir-lang/elixir/archive/${ELIXIR_VERSION}.tar.gz > elixir-src.tar.gz && \
+    echo "$ELIXIR_DOWNLOAD_SHA256 elixir-src.tar.gz" | sha256sum -c - && \
+    mkdir elixir-src && \
+    tar -xzC elixir-src --strip-components=1 -f elixir-src.tar.gz && \
+    pushd elixir-src && \
     make clean test && \
     sudo make install && \
     popd && \
-    rm -rf elixir-${ELIXIR_VERSION} && \
+    rm -rf elixir-src elixir-src.tar.gz && \
     mix local.hex --force && mix local.rebar --force && \
 
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
