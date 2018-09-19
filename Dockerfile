@@ -2,7 +2,7 @@ FROM janitortechnology/ubuntu-dev
 # 16.04 "Xenial"
 MAINTAINER Michael Howell "michael@notriddle.com"
 ENV ELIXIR_VERSION v1.7.3
-ENV ELIXIR_DOWNLOAD_SHA256 527af54775401cc5074ea698b9b6a6d67c5103056d2949638c101bc6f233e954
+ENV ELIXIR_DOWNLOAD_SHA256 c9beabd05e820ee83a56610cf2af3f34acf3b445c8fabdbe98894c886d2aa28e
 
 ADD supervisord-append.conf /tmp
 
@@ -28,7 +28,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
     git clone https://github.com/jeremyjh/dialyxir && \
     cd dialyxir && \
-    git checkout 78ecd45 && \
+    git checkout f380868 && \
     mix do deps.get, dialyzer --plt && \
     cd .. && \
     rm -rf dialyxir && \
