@@ -1,7 +1,7 @@
 FROM janitortechnology/ubuntu-dev
 # 16.04 "Xenial"
 MAINTAINER Michael Howell "michael@notriddle.com"
-ENV ELIXIR_VERSION v1.7.1
+ENV ELIXIR_VERSION v1.7.3
 ENV ELIXIR_DOWNLOAD_SHA256 527af54775401cc5074ea698b9b6a6d67c5103056d2949638c101bc6f233e954
 
 ADD supervisord-append.conf /tmp
