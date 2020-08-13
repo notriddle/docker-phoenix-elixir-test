@@ -19,7 +19,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     mkdir elixir-src && \
     tar -xzC elixir-src --strip-components=1 -f elixir-src.tar.gz && \
     cd elixir-src && \
-    make clean test && \
+    make clean && \
     sudo make install && \
     cd .. && \
     rm -rf elixir-src elixir-src.tar.gz && \
@@ -28,7 +28,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
     git clone https://github.com/jeremyjh/dialyxir && \
     cd dialyxir && \
-    git checkout f380868 && \
+    git checkout 4fb7a58 && \
     mix do deps.get, dialyzer --plt && \
     cd .. && \
     rm -rf dialyxir && \
