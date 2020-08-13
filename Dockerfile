@@ -22,7 +22,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     make clean && \
     sudo make install && \
     cd .. && \
-    rm -rf elixir-src elixir-src.tar.gz && \
+    sudo rm -rf elixir-src elixir-src.tar.gz && \
     mix local.hex --force && mix local.rebar --force && \
 
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
