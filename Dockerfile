@@ -24,7 +24,6 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     cd .. && \
     sudo rm -rf elixir-src elixir-src.tar.gz && \
     mix local.hex --force && mix local.rebar --force && \
-
 # Set up Elixir PLTs for Dialyzer (keep the commit synced with bors-ng/bors-ng/mix.exs)
     git clone https://github.com/jeremyjh/dialyxir && \
     cd dialyxir && \
@@ -32,7 +31,6 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb >
     mix do deps.get, dialyzer --plt && \
     cd .. && \
     rm -rf dialyxir && \
-
 # Set up database
     sudo mkdir /var/run/postgresql/9.5-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/9.5-main.pg_stat_tmp && \
     (sudo runuser -u postgres -- /usr/lib/postgresql/9.5/bin/postgres -D /etc/postgresql/9.5/main/ 2>&1 > /dev/null &) && \
