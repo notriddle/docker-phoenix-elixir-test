@@ -246,7 +246,7 @@ CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb > /tmp/erlang-solutions.deb && \
     sudo dpkg -i /tmp/erlang-solutions.deb && \
     sudo apt-get update && \
-    sudo apt-get -y install --no-install-recommends esl-erlang zlib1g-dev libssl-dev openssl libcurl4-openssl-dev libreadline6-dev libpcre3 libpcre3-dev imagemagick postgresql postgresql-contrib-9.5 libpq-dev postgresql-server-dev-9.5 advancecomp gifsicle jhead jpegoptim libjpeg-turbo-progs optipng pngcrush pngquant gnupg2 libsqlite3-dev && \
+    sudo apt-get -y install --no-install-recommends esl-erlang zlib1g-dev libssl-dev openssl libcurl4-openssl-dev libreadline6-dev libpcre3 libpcre3-dev imagemagick postgresql postgresql-contrib-12 libpq-dev postgresql-server-dev-12 advancecomp gifsicle jhead jpegoptim libjpeg-turbo-progs optipng pngcrush pngquant gnupg2 libsqlite3-dev && \
     sudo rm -rf /var/lib/apt/lists/* && \
     curl -L https://github.com/elixir-lang/elixir/archive/${__ELIXIR_VERSION__}.tar.gz > elixir-src.tar.gz && \
     echo "${__ELIXIR_DOWNLOAD_SHA256__} elixir-src.tar.gz" | sha256sum -c - && \
@@ -266,8 +266,8 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb >
     cd .. && \
     rm -rf dialyxir && \
 # Set up database
-    sudo mkdir /var/run/postgresql/9.5-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/9.5-main.pg_stat_tmp && \
-    (sudo runuser -u postgres -- /usr/lib/postgresql/9.5/bin/postgres -D /etc/postgresql/9.5/main/ 2>&1 > /dev/null &) && \
+    sudo mkdir /var/run/postgresql/12-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/12-main.pg_stat_tmp && \
+    (sudo runuser -u postgres -- /usr/lib/postgresql/12/bin/postgres -D /etc/postgresql/12/main/ 2>&1 > /dev/null &) && \
     sleep 1 && \
     # Bors will be running with user "postgres"
     sudo -u postgres psql -c "ALTER USER \"postgres\" WITH PASSWORD 'Postgres1234';" && \
