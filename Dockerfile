@@ -11,7 +11,7 @@ ENV __LLVM_VERSION__ 12
 
 # Install HTTPS transport for Ubuntu package sources.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends apt-transport-https ca-certificates software-properties-common gpg-agent \
+ && apt-get install -y --no-install-recommends apt-transport-https ca-certificates software-properties-common gpg-agent gnupg2 \
  && rm -rf /var/lib/apt/lists/*
 
 # Add source for the latest Clang packages.
