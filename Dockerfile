@@ -266,7 +266,7 @@ RUN curl -L https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb >
     cd .. && \
     rm -rf dialyxir && \
 # Set up database
-    sudo mkdir /var/run/postgresql/12-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/12-main.pg_stat_tmp && \
+    sudo mkdir -p /var/run/postgresql/12-main.pg_stat_tmp && sudo chown postgres:postgres /var/run/postgresql/12-main.pg_stat_tmp && \
     (sudo runuser -u postgres -- /usr/lib/postgresql/12/bin/postgres -D /etc/postgresql/12/main/ 2>&1 > /dev/null &) && \
     sleep 1 && \
     # Bors will be running with user "postgres"
