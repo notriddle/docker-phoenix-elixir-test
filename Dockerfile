@@ -1,7 +1,7 @@
 # based on https://github.com/JanitorTechnology/dockerfiles/blob/master/ubuntu-dev/ubuntu-dev.dockerfile
 
 # When bumping this, also make sure to find all the references to 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 MAINTAINER Michael Howell "michael@notriddle.com"
 ENV __ELIXIR_VERSION__ v1.12.0
